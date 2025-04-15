@@ -31,14 +31,32 @@
  * Asistencia de ChatGPT para mejorar la forma y presentación del código fuente
  */
 
-#include <fstream>
-#include <iostream>
-#include <QCoreApplication>
-#include <QImage>
+#include <fstream> // investigue un poco esta libreria sirve para manipular archivos .txt
+
+#include <iostream> // libreria estandar xd
+
+#include <QCoreApplication> // Es como la consola de qt algo asi, debo profundizar en esto
+
+
+#include <QImage>// es como la libreria que manipula los archivos.txt pero en este caso manipula los archivos .BMP
 
 using namespace std;
-unsigned char* loadPixels(QString input, int &width, int &height);
+
+unsigned char* loadPixels(QString input, int &width, int &height); // es una funcion que retorna un puntero tipo char sin signo
+
+//que interesante que qstring es una clase que puede con utf-16 y tiene muchas funciones
+
+// que interesante que int &w y &h no son direcciones de memoria, sino que son alias es decir apodos que se refieren a una variable
+// que interesante que puedo manipular las variables originales sin necesidad de que se cree las copias que se crean.
+
+
+
 bool exportImage(unsigned char* pixelData, int width,int height, QString archivoSalida);
+
+
+
+
+
 unsigned int* loadSeedMasking(const char* nombreArchivo, int &seed, int &n_pixels);
 
 int main()
@@ -116,7 +134,9 @@ unsigned char* loadPixels(QString input, int &width, int &height){
  */
 
     // Cargar la imagen BMP desde el archivo especificado (usando Qt)
-    QImage imagen(input);
+
+     QImage imagen(input); // aqui cargamos la ruta de la imagen osea la imagen como tal xd.
+
 
     // Verifica si la imagen fue cargada correctamente
     if (imagen.isNull()) {
@@ -132,7 +152,8 @@ unsigned char* loadPixels(QString input, int &width, int &height){
     height = imagen.height();
 
     // Calcula el tamaño total de datos (3 bytes por píxel: R, G, B)
-    int dataSize = width * height * 3;
+    int dataSize = width * height * 3; // aqui nos dan los datos en bytes me parece curioso que si
+    // lo multiplicamos * 24 nos dan los datos en bits, quiza lo utilize en bits hay que mirar.
 
     // Reserva memoria dinámica para almacenar los valores RGB de cada píxel
     unsigned char* pixelData = new unsigned char[dataSize];
@@ -140,6 +161,9 @@ unsigned char* loadPixels(QString input, int &width, int &height){
     // Copia cada línea de píxeles de la imagen Qt a nuestro arreglo lineal
     for (int y = 0; y < height; ++y) {
         const uchar* srcLine = imagen.scanLine(y);              // Línea original de la imagen con posible padding
+
+        // ese uchar me asusto --> significa unsigned char hahaha
+
         unsigned char* dstLine = pixelData + y * width * 3;     // Línea destino en el arreglo lineal sin padding
         memcpy(dstLine, srcLine, width * 3);                    // Copia los píxeles RGB de esa línea (sin padding)
     }
