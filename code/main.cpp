@@ -156,7 +156,7 @@ unsigned char* loadPixels(QString input, int &width, int &height){
     // lo multiplicamos * 24 nos dan los datos en bits, quiza lo utilize en bits hay que mirar.
 
     // Reserva memoria dinámica para almacenar los valores RGB de cada píxel
-    unsigned char* pixelData = new unsigned char[dataSize];
+    unsigned char* pixelData = new unsigned char[dataSize]; // todos los datos son en bytes especificamente cp 3 bytes
 
     // Copia cada línea de píxeles de la imagen Qt a nuestro arreglo lineal
     for (int y = 0; y < height; ++y) {
