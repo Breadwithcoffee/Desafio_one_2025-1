@@ -57,6 +57,7 @@ int tamañobmp(string nombre){
     ifstream archivo(nombre.c_str());
     string linea;
     if (archivo.is_open()) {
+        getline(archivo,linea); // me salto el primer \0
         while (archivo >> linea) {
             count++;
         }
@@ -64,8 +65,7 @@ int tamañobmp(string nombre){
     } else {
         cout << "Error al abrir el archivo";
     }
-    count -= 1;
-    cout<<"El tamaño de este .txt es : "<<count/3<<endl;//esta dato por dato hahaha se necesita ponerlo en rgb
+    cout<<"El tamaño de este .txt es : "<<count/3<<endl;// esta es dato por dato hahaha se necesita ponerlo en rgb
     return count;
 }
 
