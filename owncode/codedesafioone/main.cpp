@@ -3,7 +3,7 @@
 #include <string>
 using namespace std;
 string namearchivotxt();
-void semilla(string nombre);
+int  semilla(string nombre);
 int tamañobmp(string nombre);
 int* arraytxt(string nombre,int size,string* txt);
 string* rango8bit(string nombre,int size);
@@ -14,7 +14,7 @@ int main()
     int mascara[2];
     cout<<"Bienvenido, este programa intentara darte las posibles transformaciones que se le han hecho a un grupo de datos :"<<endl;
     string nombre = namearchivotxt();
-    semilla(nombre);
+    int index = semilla(nombre);
     int size = tamañobmp(nombre);
     cout<<"Ingresa el tamaño de la mascara en la tranformacion de esta imagen  "<<endl;
     for(int i = 0; i < 2; i++){cin>>mascara[i];}
@@ -22,8 +22,9 @@ int main()
     string* dato_a_dato = rango8bit(nombre,size);
     int* uno_a_uno = arraytxt(nombre,size,dato_a_dato);
 
+// Hasta aqui netamente se hice la transformacion de un .txt a una cadena de archivos.
+    delete[] uno_a_uno;
     return 0;
-
 }
 
 string namearchivotxt(){
@@ -33,7 +34,8 @@ string namearchivotxt(){
     return name;
 }
 
-void semilla(string nombre){
+int semilla(string nombre){
+    int numero = 0;
     // ifstream nombre = namearchivotxt(); --> me generaba un error con el string
     ifstream archivo(nombre.c_str());
             string linea;
@@ -42,14 +44,15 @@ void semilla(string nombre){
 
     if (archivo.is_open()) {
         while (getline(archivo, linea)) {
-            cout << "La semilla en este .txt es : "<<linea << endl;
+            numero = std::stoi(linea);
+            cout << "La semilla en este .txt es : "<<numero << endl;
             break; //Se lee unicamente la primera linea que es lo que queria \0
         }
         archivo.close();
     } else {
         cout << "Error al abrir el archivo";
     }
-
+    return numero;
 }
 
 int tamañobmp(string nombre){
@@ -76,7 +79,7 @@ string* rango8bit(string nombre, int size){
     ifstream archivo(nombre.c_str());
     string linea;
     if (archivo.is_open()) {
-        while (archivo >> linea) {
+        while (archivo >> linea && i < size) {
             cambio[i] = linea;
             i ++;
         }
@@ -88,6 +91,7 @@ string* rango8bit(string nombre, int size){
 
 }
 
+//presentando problemas en la siguiente funcion
 int* arraytxt(string nombre, int size, string* txt){
 
     int * valores = new int[size];
@@ -99,7 +103,7 @@ int* arraytxt(string nombre, int size, string* txt){
         cout<<valores[i]<<endl;
     }*/
   delete[] txt;
-return valores;
+  return valores;
 }
 
 int* rango(string nombre,int size,int*sinrango){
