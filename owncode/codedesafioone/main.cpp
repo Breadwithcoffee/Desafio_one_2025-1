@@ -5,7 +5,7 @@ using namespace std;
 string namearchivotxt();
 int  semilla(string nombre);
 int tamañobmp(string nombre);
-int* arraytxt(string nombre,int size,string* txt);
+int* arraytxt(int size,string* txt);
 string* rango8bit(string nombre,int size);
 int* rango(string nombre,int size,int*sinrango);
 
@@ -20,13 +20,14 @@ int main()
     for(int i = 0; i < 2; i++){cin>>mascara[i];}
     //ahora si viene lo chido xd hahaha
     string* dato_a_dato = rango8bit(nombre,size);
-    int* uno_a_uno = arraytxt(nombre,size,dato_a_dato);
+    int* uno_a_uno = arraytxt(size,dato_a_dato);
 // Hasta aqui netamente se hice la transformacion de un .txt a una cadena de archivos.
     index *= 3;
-    uno_a_uno += index;
-     // recorro el array a donde esta la semilla
-    cout<<*uno_a_uno<<endl;
 
+    if(index >= 0 && index < size){cout<<uno_a_uno[4]<<endl;
+    }
+    else{cout<<"Semilla apuntando a otras direccioines xd "<<endl;}
+     // recorro el array a donde esta la semilla
     delete[] uno_a_uno;
     return 0;
 }
@@ -96,7 +97,7 @@ string* rango8bit(string nombre, int size){
 }
 
 //presentando problemas en la siguiente funcion
-int* arraytxt(string nombre, int size, string* txt){
+int* arraytxt(int size, string* txt){
 
     int * valores = new int[size];
     for(int i = 0; i < size; i++){
