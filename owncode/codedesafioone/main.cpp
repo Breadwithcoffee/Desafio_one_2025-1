@@ -21,8 +21,12 @@ int main()
     //ahora si viene lo chido xd hahaha
     string* dato_a_dato = rango8bit(nombre,size);
     int* uno_a_uno = arraytxt(nombre,size,dato_a_dato);
-
 // Hasta aqui netamente se hice la transformacion de un .txt a una cadena de archivos.
+    index *= 3;
+    uno_a_uno += index;
+     // recorro el array a donde esta la semilla
+    cout<<*uno_a_uno<<endl;
+
     delete[] uno_a_uno;
     return 0;
 }
