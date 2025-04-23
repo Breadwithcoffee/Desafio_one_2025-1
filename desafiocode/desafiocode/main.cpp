@@ -27,11 +27,13 @@ bool exportImage(unsigned char* pixelData, int width,int height, QString archivo
 
 unsigned int* loadSeedMasking(const char* nombreArchivo, int &seed, int &n_pixels);
 
+void creartxt(const char* nombrearchivo , int seed , unsigned char* pixelData, int width,int height);
+
 int main()
 {
     // Definición de rutas de archivo de entrada (imagen original) y salida (imagen modificada)
     QString archivoEntrada = "pic1.bmp"; //I_O.bmp
-    QString archivoSalida = "final.bmp"; //I_D.bmp
+    QString archivoSalida = "pic1_a.bmp"; //I_D.bmp
 
     // Variables para almacenar las dimensiones de la imagen
     int height = 0;
@@ -42,10 +44,11 @@ int main()
 
     // Simula una modificación de la imagen asignando valores RGB incrementales
     // (Esto es solo un ejemplo de manipulación artificial)
+    // Ejemplo: Asignar valores RGB distintos (simulando una imagen real)
     for (int i = 0; i < width * height * 3; i += 3) {
-        pixelData[i] = i;     // Canal rojo
-        pixelData[i + 1] = i; // Canal verde
-        pixelData[i + 2] = i; // Canal azul
+        pixelData[i] = i ;          // Rojo
+        pixelData[i + 1] = i ; // Verde
+        pixelData[i + 2] = i; // Azul
     }
 
     // Exporta la imagen modificada a un nuevo archivo BMP
@@ -54,13 +57,21 @@ int main()
     // Muestra si la exportación fue exitosa (true o false)
     cout << exportI << endl;
 
+    for (int i = 0; i < width * height * 3; i += 3) {
+        cout << "Pixel " << i / 3 << ": ("
+             << pixelData[i] + 48 << ", "
+             << pixelData[i + 1] + 48 << ", "
+             << pixelData[i + 2] + 48 << ")" << endl;
+    }
+    int seed = 10;
+    int n_pixels = 0;
+     creartxt("a1.txt" , seed , pixelData, width, height);
     // Libera la memoria usada para los píxeles
     delete[] pixelData;
     pixelData = nullptr;
 
     // Variables para almacenar la semilla y el número de píxeles leídos del archivo de enmascaramiento
-    int seed = 0;
-    int n_pixels = 0;
+
 
     // Carga los datos de enmascaramiento desde un archivo .txt (semilla + valores RGB)
     //M1.txt
@@ -68,11 +79,16 @@ int main()
 
     // Muestra en consola los primeros valores RGB leídos desde el archivo de enmascaramiento
     for (int i = 0; i < n_pixels * 3; i += 3) {
-        cout << "Pixel " << i / 3 << ": ("
+        cout << "Pixela " << i / 3 << ": ("
              << maskingData[i] << ", "
              << maskingData[i + 1] << ", "
              << maskingData[i + 2] << ")" << endl;
     }
+
+
+
+
+
 
     // Libera la memoria usada para los datos de enmascaramiento
     if (maskingData != nullptr){
@@ -259,4 +275,30 @@ unsigned int* loadSeedMasking(const char* nombreArchivo, int &seed, int &n_pixel
 
     // Retornar el puntero al arreglo con los datos RGB
     return RGB;
+
 }
+
+
+//Funcion propia para crear del array datos
+
+void creartxt(const char* nombrearchivo , int seed , unsigned char* pixelData, int width,int height){
+    ofstream archivo(nombrearchivo);
+    if (!archivo.is_open()) {
+        cout << "error al abrir el archivo" << endl;
+        return;
+    }
+
+   //Para la semilla
+    archivo << seed << endl;
+
+    //Me copia los rgb :>
+    for (int i = 0; i < width * height * 3; i += 3) {
+        archivo << pixelData[i] + 48 << " " << pixelData[i + 1] + 48 << " " << pixelData[i + 2]+ 48 << endl;
+    }
+
+    archivo.close();
+    cout << "Archivo " << nombrearchivo << " todo melo" << endl;
+}
+
+
+
