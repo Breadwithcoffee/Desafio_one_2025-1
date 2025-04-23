@@ -62,8 +62,8 @@ unsigned int* loadSeedMasking(const char* nombreArchivo, int &seed, int &n_pixel
 int main()
 {
     // Definición de rutas de archivo de entrada (imagen original) y salida (imagen modificada)
-    QString archivoEntrada = "I_O.bmp";
-    QString archivoSalida = "I_D.bmp";
+    QString archivoEntrada = "pic1.bmp"; //I_O.bmp
+    QString archivoSalida = "final.bmp"; //I_D.bmp
 
     // Variables para almacenar las dimensiones de la imagen
     int height = 0;
@@ -95,7 +95,8 @@ int main()
     int n_pixels = 0;
 
     // Carga los datos de enmascaramiento desde un archivo .txt (semilla + valores RGB)
-    unsigned int *maskingData = loadSeedMasking("M1.txt", seed, n_pixels);
+    //M1.txt
+    unsigned int *maskingData = loadSeedMasking("a1.txt", seed, n_pixels);
 
     // Muestra en consola los primeros valores RGB leídos desde el archivo de enmascaramiento
     for (int i = 0; i < n_pixels * 3; i += 3) {

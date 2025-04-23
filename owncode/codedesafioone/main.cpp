@@ -13,21 +13,36 @@ int main()
 {
     int mascara[2];
     cout<<"Bienvenido, este programa intentara darte las posibles transformaciones que se le han hecho a un grupo de datos :"<<endl;
+    cout<<"Se solicitaran dos archivos .txt y se buscaran sus posibles transformaciones "<<endl;
+    cout<<"Ingresa el tamaño de la mascara en la tranformacion de esta imagen  "<<endl;
+    for(int i = 0; i < 2; i++){cin>>mascara[i];}
+    cout<<"Ingresa el ultimo txt a comprobar"<<endl;
     string nombre = namearchivotxt();
     int index = semilla(nombre);
     int size = tamañobmp(nombre);
-    cout<<"Ingresa el tamaño de la mascara en la tranformacion de esta imagen  "<<endl;
-    for(int i = 0; i < 2; i++){cin>>mascara[i];}
     //ahora si viene lo chido xd hahaha
     string* dato_a_dato = rango8bit(nombre,size);
     int* uno_a_uno = arraytxt(size,dato_a_dato);
-// Hasta aqui netamente se hice la transformacion de un .txt a una cadena de archivos.
+// Hasta aqui netamente se hice la transformacion de un .txt a una cadena de enteros.
     index *= 3;
-
-    if(index >= 0 && index < size){cout<<uno_a_uno[4]<<endl;
+    if(index >= 0 && index < size){cout<<uno_a_uno[index]<<endl;
     }
     else{cout<<"Semilla apuntando a otras direccioines xd "<<endl;}
      // recorro el array a donde esta la semilla
+
+    //desde aqui empiezo a pedir el otro .txt, unicamente hago lo mismo pero con algo mas.
+    cout<<"Ingresa el anterior .txt del anterior "<<endl;
+    string nombre1 = namearchivotxt();
+    int index1 = semilla(nombre1);
+    int size1 = tamañobmp(nombre1);
+    string* dato_a_dato1 = rango8bit(nombre1,size1);
+    int* uno_a_uno1 = arraytxt(size1,dato_a_dato1);
+    index1 *= 3;
+    if(index1 >= 0 && index1 < size1){cout<<uno_a_uno1[index1]<<endl;
+    }
+    else{cout<<"Semilla apuntando a otras direccioines xd "<<endl;}
+
+    delete[] uno_a_uno1;
     delete[] uno_a_uno;
     return 0;
 }
@@ -110,8 +125,8 @@ int* arraytxt(int size, string* txt){
   delete[] txt;
   return valores;
 }
-
-int* rango(string nombre,int size,int*sinrango){
+// creo que no utilizare esta funcion
+/*int* rango(string nombre,int size,int*sinrango){
     for(int i = 0; i< size; i++){
         if(sinrango[i] > 255){
             sinrango[i] %= 256;
@@ -120,7 +135,7 @@ int* rango(string nombre,int size,int*sinrango){
     }
     return sinrango;
 
-}
+}*/
 
 
 
