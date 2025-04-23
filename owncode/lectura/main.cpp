@@ -25,8 +25,13 @@ unsigned int* loadSeedMasking(const char* nombreArchivo, int &seed, int &n_pixel
 
 void creartxt(const char* nombrearchivo , int seed , unsigned char* pixelData, int width,int height);
 
+
+
+
+
 int main()
 {
+    char nombre[] = "lecturaimagen_aleatoria.txt";
     // Definición de rutas de archivo de entrada (imagen original) y salida (imagen modificada)
     QString archivoEntrada = "imagen_aleatoria.bmp"; //I_O.bmp
    // QString archivoSalida = "pic1_a.bmp"; //I_D.bmp
@@ -58,8 +63,7 @@ int main()
     int n_pixels = 0;
     creartxt("lecturaimagen_aleatoria.txt" , seed , pixelData, width, height);
     // Libera la memoria usada para los píxeles
-    delete[] pixelData;
-    pixelData = nullptr;
+
 
     // Variables para almacenar la semilla y el número de píxeles leídos del archivo de enmascaramiento
 
@@ -75,13 +79,31 @@ int main()
              << maskingData[i + 1] << ", "
              << maskingData[i + 2] << ")" << endl;
     }
+// desde aqui funcion de rotacion
+    char desicion = 48;
+    while(desicion != 100){
+
+    cout<<"Se que este programa  unicamente era para lectura de datos , pero tambien tendre que utilizarla "<<endl;
+    cout<<"Para creacion de datos :) "<<endl;
+    cout<<"Ingresa lo que quieres hacer a los datos del .txt llamado "<< nombre<<endl;
+    cout<<" a-Rotar \n b-utilizar el xor \n c-utilizar mascara \n d-salir: "<<endl;
+    cin>> desicion;
+    if(desicion == 97 ){
+
+
+    }
+    else if(desicion == 98){}
+    else if(desicion == 99){}
 
 
 
+    }
 
 
-
-    // Libera la memoria usada para los datos de enmascaramiento
+    // librerando todo despues
+    delete[] pixelData;
+    pixelData = nullptr;
+    // Libera la memoria usada para los datos leidos
     if (maskingData != nullptr){
         delete[] maskingData;
         maskingData = nullptr;
