@@ -95,7 +95,6 @@ int tamañobmp(string nombre){
 string* rango8bit(string nombre, int size){
     int i = 0;
     string* cambio = new string[size];
-
     ifstream archivo(nombre.c_str());
     string linea;
     if (archivo.is_open()) {
