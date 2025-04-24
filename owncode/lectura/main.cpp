@@ -60,8 +60,37 @@ int main()
             cout<<width << height<<endl;
             cout<<"dato leido satisfactoriamente :)"<<endl;
 
+
+            cout<<"procedo a cambiar los datos para el rango de 8 bit desaado :) "<<endl;
+            int size = height * width * 3;
+            int * enteros1 =  leertxt( nombretxt, width,  height );
+            for(int i = 0 ; i < size; i ++){
+                if(enteros1[i] > 255){
+                    enteros1[i] = enteros1[i]%256;
+                }
+            }
+
+            ofstream archivo(nombretxt);
+            if (!archivo.is_open()) {
+                cout << "error al abrir el archivo" << endl;
+            }
+
+            //Para la semilla
+            archivo << seed << endl;
+                //Me copia los rgb :>
+            size = width * height * 3 ;
+            for (int i = 0; i < size; i += 3) {
+                archivo << enteros1[i]  << " " << enteros1[i + 1] << " " << enteros1[i + 2] << endl;
+            }
+
+            archivo.close();
+            cout << "Archivo " << nombretxt << " todo melo" << endl;
+
+
             // necesito evitar fugas -->
             delete[] pixelData;
+            delete[] enteros1;
+            enteros1 = nullptr;
             pixelData = nullptr;
             }
 
@@ -72,10 +101,18 @@ int main()
               int * enteros =  leertxt( nombretxt, width,  height );
               // ya tenemos el array en enteros ahora sigue algo muy interesante, algo
               //que me gusta mucho;
-
+              int size = width * height * 3;
               //convertire los datos del array en numero menores de 8 bits
 
-
+              //esto lo trabajo con el array entero mas no me lo cambia en el .txt.
+              for(int i = 0 ; i < size; i ++){
+                  if(enteros[i] > 255){
+                      enteros[i] = enteros[i]%256;
+                  }
+              }
+              for(int i = 0; i < size; i ++){
+                  cout<<enteros[i]<<endl;
+              }
               cout<<"Ingresa para donde quieres rotar \n 1-<< \n 2->> "<<endl;
               int rotacion = 0;
               int cantidad;
@@ -89,17 +126,23 @@ int main()
               if(rotacion == 1){
                   for(int i = 0; i < width * height*3; i++){
 
-                      enteros[i] = (enteros[i]<< cantidad) | enteros[i]<< cantidad;
+                      enteros[i] = (enteros[i]<< cantidad) | enteros[i]>> (8-cantidad);
 
                   }
               }
               else if(rotacion == 2){
                   for(int i = 0; (i < width * height*3)  ; i++){
 
-                     enteros[i] = (enteros[i]<< cantidad) | enteros[i]<< cantidad;
+                      enteros[i] = (enteros[i]>> cantidad) | enteros[i]<< (8-cantidad);
 
                   }
               }
+              for(int i = 0 ; i < size; i ++){
+                  if(enteros[i] > 255){
+                      enteros[i] = enteros[i]%256;
+                  }
+              }
+
 
               cout<<"Ingresa el txt que recibira la informacion de esta transformacion "<<endl;
               cin >> nombretxt;
@@ -112,7 +155,7 @@ int main()
                   //Para la semilla
                  archivo << seed << endl;
                   //Me copia los rgb :>
-                  int size = width * height * 3 ;
+                   size = width * height * 3 ;
                   for (int i = 0; i < size; i += 3) {
                       archivo << enteros[i]  << " " << enteros[i + 1] << " " << enteros[i + 2] << endl;
                   }
@@ -363,6 +406,13 @@ void creartxt(char nombretxt[] , unsigned char* pixelData, int seed ,int width,i
     //Me copia los rgb :>
     for (int i = 0; i < width * height * 3; i += 3) {
         archivo << pixelData[i] + 48 << " " << pixelData[i + 1] + 48 << " " << pixelData[i + 2]+ 48 << endl;
+    }
+    for (int i = 0; i < width * height * 3; i += 3) {
+        if(pixelData[i] >= 255){
+            pixelData[i] = pixelData[i] % 256;
+            archivo << pixelData[i] << " ";
+        }
+
     }
 
     archivo.close();
