@@ -23,7 +23,7 @@ unsigned char* loadPixels(QString input, int &width, int &height); // es una fun
 
 unsigned int* loadSeedMasking(const char* nombreArchivo, int &seed, int &n_pixels);
 
-void creartxt(const char* nombrearchivo , int seed , unsigned char* pixelData, int width,int height);
+void creartxt(char nombretxt[], int seed , unsigned char* pixelData, int width,int height);
 
 
 
@@ -31,37 +31,49 @@ void creartxt(const char* nombrearchivo , int seed , unsigned char* pixelData, i
 
 int main()
 {
-    char nombre[] = "lecturaimagen_aleatoria.txt";
-    // Definición de rutas de archivo de entrada (imagen original) y salida (imagen modificada)
-    QString archivoEntrada = "imagen_aleatoria.bmp"; //I_O.bmp
-   // QString archivoSalida = "pic1_a.bmp"; //I_D.bmp
+    //modificacion
 
-    // Variables para almacenar las dimensiones de la imagen
-    int height = 0;
-    int width = 0;
+    char nombre[20] ;
+    char desicion = 48;
+    while(desicion != 101){
 
-    // Carga la imagen BMP en memoria dinámica y obtiene ancho y alto
-    unsigned char *pixelData = loadPixels(archivoEntrada, width, height);
+        cout<<"Se que este programa  unicamente era para lectura de datos , pero tambien tendre que utilizarla "<<endl;
+        cout<<"Para creacion de datos :) "<<endl;
+        cout<<"Ingresa lo que quieres hacer a los datos del .txt llamado  o leer imagenes .BMP"<<endl;
+        cout<<"a-leer una imagen \n b- rotar una imagen \n c- aplicar xor \n d-poner mascara \n e-salir "<<endl;
+        cin>> desicion;
+        if(desicion == 97 ){
+            cout<<"Ingresa el nombre de la imagen"<<endl;
+            cin>>nombre;
+            QString archivoEntrada = nombre;
+            int height = 0;
+            int width = 0;
+            unsigned char *pixelData = loadPixels(archivoEntrada, width, height);
+            int seed = 0;
+        //    int n_pixels = 0;
+            cout<<"Ingrese el nombre del .txt en donde se van a poner los datos leidos"<<endl;
+            char nombretxt[20];
+            cin>>nombretxt;
+            creartxt(nombretxt,seed , pixelData,  width, height);
+            delete[] pixelData;
+            pixelData = nullptr;
+        }
+        else if(desicion == 98){}
+        else if(desicion == 99){}
+        else if(desicion == 100){}
 
-    // Simula una modificación de la imagen asignando valores RGB incrementales
-    // (Esto es solo un ejemplo de manipulación artificial)
-    // Ejemplo: Asignar valores RGB distintos (simulando una imagen real)
- /*   for (int i = 0; i < width * height * 3; i += 3) {
-        pixelData[i] = i ;          // Rojo
-        pixelData[i + 1] = i ; // Verde
-        pixelData[i + 2] = i; // Azul
+
+
     }
-    */
 
+/* esto unicamente me lee , los valores que hay en el array que lee la imagen bmp
     for (int i = 0; i < width * height * 3; i += 3) {
         cout << "Pixel " << i / 3 << ": ("
              << pixelData[i] + 48 << ", "
              << pixelData[i + 1] + 48 << ", "
              << pixelData[i + 2] + 48 << ")" << endl;
-    }
-    int seed = 10;
-    int n_pixels = 0;
-    creartxt("lecturaimagen_aleatoria.txt" , seed , pixelData, width, height);
+    }*/
+
     // Libera la memoria usada para los píxeles
 
 
@@ -70,7 +82,7 @@ int main()
 
     // Carga los datos de enmascaramiento desde un archivo .txt (semilla + valores RGB)
     //M1.txt
-    unsigned int *maskingData = loadSeedMasking("lecturaimagen_aleatoria.txt", seed, n_pixels);
+/*    unsigned int *maskingData = loadSeedMasking("lecturaimagen_aleatoria.txt", seed, n_pixels);
 
     // Muestra en consola los primeros valores RGB leídos desde el archivo de enmascaramiento
     for (int i = 0; i < n_pixels * 3; i += 3) {
@@ -79,35 +91,14 @@ int main()
              << maskingData[i + 1] << ", "
              << maskingData[i + 2] << ")" << endl;
     }
-// desde aqui funcion de rotacion
-    char desicion = 48;
-    while(desicion != 100){
-
-    cout<<"Se que este programa  unicamente era para lectura de datos , pero tambien tendre que utilizarla "<<endl;
-    cout<<"Para creacion de datos :) "<<endl;
-    cout<<"Ingresa lo que quieres hacer a los datos del .txt llamado "<< nombre<<endl;
-    cout<<" a-Rotar \n b-utilizar el xor \n c-utilizar mascara \n d-salir: "<<endl;
-    cin>> desicion;
-    if(desicion == 97 ){
-
-
-    }
-    else if(desicion == 98){}
-    else if(desicion == 99){}
-
-
-
-    }
-
 
     // librerando todo despues
-    delete[] pixelData;
-    pixelData = nullptr;
+
     // Libera la memoria usada para los datos leidos
     if (maskingData != nullptr){
         delete[] maskingData;
         maskingData = nullptr;
-    }
+    }*/
 
     return 0; // Fin del programa
 }
@@ -294,8 +285,8 @@ unsigned int* loadSeedMasking(const char* nombreArchivo, int &seed, int &n_pixel
 
 //Funcion propia para crear del array datos
 
-void creartxt(const char* nombrearchivo , int seed , unsigned char* pixelData, int width,int height){
-    ofstream archivo(nombrearchivo);
+void creartxt(char nombretxt[] , int seed , unsigned char* pixelData, int width,int height){
+    ofstream archivo(nombretxt);
     if (!archivo.is_open()) {
         cout << "error al abrir el archivo" << endl;
         return;
@@ -310,5 +301,10 @@ void creartxt(const char* nombrearchivo , int seed , unsigned char* pixelData, i
     }
 
     archivo.close();
-    cout << "Archivo " << nombrearchivo << " todo melo" << endl;
+    cout << "Archivo " << nombretxt << " todo melo" << endl;
 }
+
+
+//Funcion para hacer las rotaciones
+
+//unsigned int* rotacion(){}
