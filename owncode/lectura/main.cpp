@@ -23,46 +23,114 @@ unsigned char* loadPixels(QString input, int &width, int &height); // es una fun
 
 unsigned int* loadSeedMasking(const char* nombreArchivo, int &seed, int &n_pixels);
 
-void creartxt(char nombretxt[], int seed , unsigned char* pixelData, int width,int height);
+void creartxt(char nombretxt[], unsigned char* pixelData,int seed, int width,int height);
 
-
+ int* leertxt(char nombretxt[],int width, int height  );
 
 
 
 int main()
 {
     //modificacion
-
+    int height = 0;
+    int width = 0;
+    int seed = 0;
+    char nombretxt[20];
     char nombre[20] ;
     char desicion = 48;
     while(desicion != 101){
 
         cout<<"Se que este programa  unicamente era para lectura de datos , pero tambien tendre que utilizarla "<<endl;
         cout<<"Para creacion de datos :) "<<endl;
-        cout<<"Ingresa lo que quieres hacer a los datos del .txt llamado  o leer imagenes .BMP"<<endl;
+        cout<<"Ingresa lo que quieres hacer a los datos del .txt llamado  o leer imagenes .BMP RECUERDA QUE TODO SE HARA DE MANERA LINEAL"<<endl;
         cout<<"a-leer una imagen \n b- rotar una imagen \n c- aplicar xor \n d-poner mascara \n e-salir "<<endl;
         cin>> desicion;
         if(desicion == 97 ){
             cout<<"Ingresa el nombre de la imagen"<<endl;
             cin>>nombre;
             QString archivoEntrada = nombre;
-            int height = 0;
-            int width = 0;
+
             unsigned char *pixelData = loadPixels(archivoEntrada, width, height);
-            int seed = 0;
+
         //    int n_pixels = 0;
             cout<<"Ingrese el nombre del .txt en donde se van a poner los datos leidos"<<endl;
-            char nombretxt[20];
+
             cin>>nombretxt;
-            creartxt(nombretxt,seed , pixelData,  width, height);
+            creartxt(nombretxt, pixelData, seed, width, height);
+            cout<<width << height<<endl;
+            cout<<"dato leido satisfactoriamente :)"<<endl;
+
+            // necesito evitar fugas -->
             delete[] pixelData;
             pixelData = nullptr;
+            }
+
+
+        else if(desicion == 98){
+            cout<<"Ingresa el nombre del .txt a rotar "<<endl;
+            cin >> nombretxt;
+              int * enteros =  leertxt( nombretxt, width,  height );
+              // ya tenemos el array en enteros ahora sigue algo muy interesante, algo
+              //que me gusta mucho;
+
+              //convertire los datos del array en numero menores de 8 bits
+
+
+              cout<<"Ingresa para donde quieres rotar \n 1-<< \n 2->> "<<endl;
+              int rotacion = 0;
+              int cantidad;
+              cin>>rotacion;
+              if(rotacion == 1){cout<<"cuantas veces quieres rotar? TOPE MAXIMO 8 POR TURNO "<<endl;
+              cin>>cantidad;}
+              else{cout<<"cuantas veces quieres rotar? TOPE MAXIMO 8 POR TURNO "<<endl;
+                  cin>>cantidad;}
+
+              // ROTACION PARA TODOS LOS VALORES
+              if(rotacion == 1){
+                  for(int i = 0; i < width * height*3; i++){
+
+                      enteros[i] = (enteros[i]<< cantidad) | enteros[i]<< cantidad;
+
+                  }
+              }
+              else if(rotacion == 2){
+                  for(int i = 0; (i < width * height*3)  ; i++){
+
+                     enteros[i] = (enteros[i]<< cantidad) | enteros[i]<< cantidad;
+
+                  }
+              }
+
+              cout<<"Ingresa el txt que recibira la informacion de esta transformacion "<<endl;
+              cin >> nombretxt;
+               //ahora tengo que tener otro txt para guardar esta combinacion.
+                  ofstream archivo(nombretxt);
+                  if (!archivo.is_open()) {
+                      cout << "error al abrir el archivo" << endl;
+                  }
+
+                  //Para la semilla
+                 archivo << seed << endl;
+                  //Me copia los rgb :>
+                  int size = width * height * 3 ;
+                  for (int i = 0; i < size; i += 3) {
+                      archivo << enteros[i]  << " " << enteros[i + 1] << " " << enteros[i + 2] << endl;
+                  }
+
+                  archivo.close();
+                  cout << "Archivo " << nombretxt << " todo melo" << endl;
+                  delete[] enteros;
+                  enteros = nullptr;
+
+            }
+
+
+            else if(desicion == 99){}
+            else if(desicion == 100){}
         }
-        else if(desicion == 98){}
-        else if(desicion == 99){}
-        else if(desicion == 100){}
 
 
+        return 0;
 
     }
 
@@ -100,8 +168,6 @@ int main()
         maskingData = nullptr;
     }*/
 
-    return 0; // Fin del programa
-}
 
 
 unsigned char* loadPixels(QString input, int &width, int &height){
@@ -285,11 +351,10 @@ unsigned int* loadSeedMasking(const char* nombreArchivo, int &seed, int &n_pixel
 
 //Funcion propia para crear del array datos
 
-void creartxt(char nombretxt[] , int seed , unsigned char* pixelData, int width,int height){
+void creartxt(char nombretxt[] , unsigned char* pixelData, int seed ,int width,int height){
     ofstream archivo(nombretxt);
     if (!archivo.is_open()) {
         cout << "error al abrir el archivo" << endl;
-        return;
     }
 
     //Para la semilla
@@ -303,8 +368,38 @@ void creartxt(char nombretxt[] , int seed , unsigned char* pixelData, int width,
     archivo.close();
     cout << "Archivo " << nombretxt << " todo melo" << endl;
 }
+int* leertxt(char nombretxt[], int width, int height) {
+    ifstream archivo(nombretxt);
+    if (!archivo.is_open()) {
+        cout << "Error al abrir el archivo";
+        return nullptr;
+    }
+
+    int size = width * height * 3;
+    int* datos = new int[size];
+    int i = 0;
+
+    //salto la primera linea
+    // osea leo la primera linea y la descarto
+    string linea;
+    getline(archivo, linea);
 
 
-//Funcion para hacer las rotaciones
+    int r, g, b;
+    while (archivo >> r >> g >> b && i < size) {
+        datos[i++] = r;
+        datos[i++] = g;
+        datos[i++] = b;
+    }
 
-//unsigned int* rotacion(){}
+    archivo.close();
+    return datos;
+}
+
+
+
+
+
+
+
+
