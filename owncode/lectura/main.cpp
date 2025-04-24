@@ -68,6 +68,9 @@ int main()
                 if(enteros1[i] > 255){
                     enteros1[i] = enteros1[i]%256;
                 }
+                else if(enteros1[i] < 0){
+                    enteros1[i] = enteros1[i] + 256;
+                }
             }
 
             ofstream archivo(nombretxt);
@@ -110,9 +113,6 @@ int main()
                       enteros[i] = enteros[i]%256;
                   }
               }
-              for(int i = 0; i < size; i ++){
-                  cout<<enteros[i]<<endl;
-              }
               cout<<"Ingresa para donde quieres rotar \n 1-<< \n 2->> "<<endl;
               int rotacion = 0;
               int cantidad;
@@ -140,6 +140,8 @@ int main()
               for(int i = 0 ; i < size; i ++){
                   if(enteros[i] > 255){
                       enteros[i] = enteros[i]%256;
+                  }else if(enteros[i] < 0){
+                      enteros[i] = enteros[i] + 256;
                   }
               }
 
@@ -185,6 +187,9 @@ int main()
                 for(int i = 0; i < size; i++ ){
                     if(datos1[i] > 255){
                         datos1[i] = datos1[i] % 256;
+                    }
+                    else if(datos1[i] < 0){
+                        datos1[i] = datos1[i] + 256;
                     }
                 }
 
@@ -477,6 +482,10 @@ void creartxt(char nombretxt[] , unsigned char* pixelData, int seed ,int width,i
     for (int i = 0; i < width * height * 3; i += 3) {
         if(pixelData[i] >= 255){
             pixelData[i] = pixelData[i] % 256;
+            archivo << pixelData[i] << " ";
+        }
+        else if(pixelData[i] < 0){
+            pixelData[i] = pixelData[i] + 256;
             archivo << pixelData[i] << " ";
         }
 
