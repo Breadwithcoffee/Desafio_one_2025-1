@@ -168,7 +168,74 @@ int main()
             }
 
 
-            else if(desicion == 99){}
+            else if(desicion == 99){
+                int size = height * width * 3;
+                //Las pautas para  esto es lo siguiente
+                /* Se necesita que se hallan sacado los valores de la imagen aleatoria y de la imagen a
+                 transformar y los txt correspondientes y listo a darle*/
+                cout<<"Ingrese el .txt en donde se encuentra los datos de la imagen aleatoria :"<<endl;
+                char nombretxt[20];
+                cin>>nombretxt;
+                cout<<"Ahora ingrese el .txt de la imagen a la que se le realizara el procedimiento xor "<<endl;
+                char nombretxt1[20];
+                cin>>nombretxt1;
+
+                int* datos1 = leertxt( nombretxt,  width,  height);
+                //rango que necesito
+                for(int i = 0; i < size; i++ ){
+                    if(datos1[i] > 255){
+                        datos1[i] = datos1[i] % 256;
+                    }
+                }
+
+                int* datos2 = leertxt( nombretxt1,  width,  height);
+                //rango que necesito
+                for(int i = 0; i < size; i++ ){
+                    if(datos1[i] > 255){
+                        datos1[i] = datos1[i] % 256;
+                    }
+                }
+
+                //ahora si viene lo rico
+                int * datosresultantes = new int[size];
+                for(int i = 0 ; i < size; i++){
+                    datosresultantes[i] = datos1[i] ^ datos2[i];
+
+                }
+
+                // volver con el rango
+                for(int i = 0; i < size; i++ ){
+                    if(datosresultantes[i] > 255){
+                        datosresultantes[i] = datosresultantes[i] % 256;
+                    }
+                }
+
+                // copio todo esto en otro .txt
+
+                cout<<"Ingresa el nombre del .txt  en donde guardaras esta transformacion "<<endl;
+                cin>>nombretxt;
+                ofstream archivo(nombretxt);
+                if (!archivo.is_open()) {
+                    cout << "error al abrir el archivo" << endl;
+                }
+
+                //Para la semilla
+                archivo << seed << endl;
+                    //Me copia los rgb :>
+                size = width * height * 3 ;
+                for (int i = 0; i < size; i += 3) {
+                    archivo << datosresultantes[i]  << " " << datosresultantes[i + 1] << " " << datosresultantes[i + 2] << endl;
+                }
+
+                archivo.close();
+                cout << "Archivo " << nombretxt << " todo melo" << endl;
+
+                delete[] datos1;
+                delete[] datos2;
+                delete[] datosresultantes;
+                datos1 = nullptr ; datos2 = nullptr ; datosresultantes = nullptr;
+
+            }
             else if(desicion == 100){}
         }
 
