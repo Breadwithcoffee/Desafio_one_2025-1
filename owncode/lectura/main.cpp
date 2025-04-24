@@ -196,8 +196,10 @@ int main()
                 int* datos2 = leertxt( nombretxt1,  width,  height);
                 //rango que necesito
                 for(int i = 0; i < size; i++ ){
-                    if(datos1[i] > 255){
-                        datos1[i] = datos1[i] % 256;
+                    if(datos2[i] > 255){
+                        datos2[i] = datos2[i] % 256;
+                    }else if(datos2[i] < 0){
+                        datos2[i] = datos2[i] + 256;
                     }
                 }
 
@@ -212,6 +214,8 @@ int main()
                 for(int i = 0; i < size; i++ ){
                     if(datosresultantes[i] > 255){
                         datosresultantes[i] = datosresultantes[i] % 256;
+                    }else if(datosresultantes[i] < 0){
+                        datosresultantes[i] = datosresultantes[i] + 256;
                     }
                 }
 
@@ -241,7 +245,71 @@ int main()
                 datos1 = nullptr ; datos2 = nullptr ; datosresultantes = nullptr;
 
             }
-            else if(desicion == 100){}
+            else if(desicion == 100){
+                char nombretxt[20];
+                char nombretxt1[20];
+                int size = width * height * 3;
+                //se empieza lo mas complicadito
+
+                cout<<"Ingresa en donde se pondra la semilla : "<<endl;
+                cin >> seed;
+
+                // me ire a esa semilla y sumare los valores que hay en el .txt con los valores
+                // de la semilla.
+                cout<<"Ingresa el .txt en donde se pondra la mascara :"<<endl;
+                cin>>nombretxt;
+                int* datos = leertxt(nombretxt, width, height);
+                cout<<"Ingresa el .txt en donde estan los datos relacionados con la mascara : "<<endl;
+                cin >> nombretxt1;
+                 int* datos1 = leertxt(nombretxt, width, height);
+                seed -= 1;
+                seed = seed * 3;
+
+                 // necesito saber el tamaño de la mascara
+                int tamaño = 0;
+                cout<<"Por comodidad y tiempo, dime de cuanto es el producto de la dimension de la mascara  "<<endl;
+                cin>>tamaño;
+
+                for(int i = 0; i < tamaño ; i++){
+                    datos[seed + i] = (datos[seed + i]) + datos1[i];
+                }
+                //pongo el rango otra vez, si yo y mi rango
+
+                for(int i = 0; i < size; i++ ){
+                    if(datos[i] > 255){
+                        datos[i] = datos[i] % 256;
+                    }else if(datos[i] < 0){
+                        datos[i] = datos[i] + 256;
+                    }
+                }
+
+                cout<<"Ingresa el nombre del .txt  en donde guardaras esta transformacion "<<endl;
+                cin>>nombretxt;
+                ofstream archivo(nombretxt);
+                if (!archivo.is_open()) {
+                    cout << "error al abrir el archivo" << endl;
+                }
+
+                //Para la semilla
+                archivo << seed << endl;
+                    //Me copia los rgb :>
+                size = width * height * 3 ;
+                for (int i = 0; i < size; i += 3) {
+                    archivo << datos[i]  << " " << datos[i + 1] << " " << datos[i + 2] << endl;
+                }
+
+                archivo.close();
+                cout << "Archivo " << nombretxt << " todo melo" << endl;
+
+
+
+
+                delete[] datos;
+                delete[] datos1;
+                datos = nullptr;
+                datos1 = nullptr;
+
+            }
         }
 
 
@@ -484,10 +552,10 @@ void creartxt(char nombretxt[] , unsigned char* pixelData, int seed ,int width,i
             pixelData[i] = pixelData[i] % 256;
             archivo << pixelData[i] << " ";
         }
-        else if(pixelData[i] < 0){
+        /*else if(pixelData[i] < 0){
             pixelData[i] = pixelData[i] + 256;
             archivo << pixelData[i] << " ";
-        }
+        }*/
 
     }
 
@@ -517,6 +585,16 @@ int* leertxt(char nombretxt[], int width, int height) {
         datos[i++] = g;
         datos[i++] = b;
     }
+
+
+    // creare el filtro de rango de una vez para no estar poniendolo cada momentico
+    for (int i = 0; i < size; i += 3) {
+        if(datos[i] >= 255){
+            datos[i] = datos[i] % 256;
+        }
+        else if(datos[i] < 0){
+            datos[i] = datos[i] + 256;
+        }}
 
     archivo.close();
     return datos;
