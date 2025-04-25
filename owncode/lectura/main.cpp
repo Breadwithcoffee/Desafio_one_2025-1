@@ -133,12 +133,12 @@ int main()
               else if(rotacion == 2){
                   for(int i = 0; (i < width * height*3)  ; i++){
 
-                      enteros[i] = (enteros[i]>> cantidad) | enteros[i]<< (8-cantidad);
+                      enteros[i] = (enteros[i]>> cantidad) | enteros[i]<< (8-cantidad) & 0xFF;
 
                   }
               }
               for(int i = 0 ; i < size; i ++){
-                  if(enteros[i] > 255){
+                  if(enteros[i] >= 255){
                       enteros[i] = enteros[i]%256;
                   }else if(enteros[i] < 0){
                       enteros[i] = enteros[i] + 256;

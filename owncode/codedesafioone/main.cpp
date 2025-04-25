@@ -9,6 +9,7 @@ int* arraytxt(int size,string* txt);
 string* rango8bit(char nombre[],int size);
 void rango(int size,int*sinrango);
 
+void rotaciones(int* a, int*b);
 int main()
 {
     char nombre[20];
@@ -36,12 +37,18 @@ int main()
     int* uno_a_uno = arraytxt(size,dato_a_dato);
     //conversion del segundo txt
      int* uno_a_uno1 = arraytxt(size,dato_a_dato1);
+     // ponerle el rango a cada array
+     rango( size,uno_a_uno);
+     //ahora al siguiente
+      rango( size,uno_a_uno1);
 
 
-    for(int i = 0 ; i < size ; i++){
+    /*for(int i = 0 ; i < size ; i++){
          cout<<uno_a_uno[i]<<endl;
-    }
+    }*/
+    // vamos con las tranformaciones
 
+    rotaciones(uno_a_uno,uno_a_uno1);
 
     delete[] uno_a_uno;
      delete[] uno_a_uno1;
@@ -150,6 +157,55 @@ void rango(int size,int*sinrango){
     }
 
 }
+
+void rotaciones(int* a, int* b) {
+    for (int i = 0; i < 9; i++) {
+        int izquierda = ((a[5] << i) | (a[5] >> (8 - i))) & 0xFF  ;
+        if (izquierda == b[5]) {
+            cout << "¡Se encontraron rotaciones !! :) hacia la izquierda de << " << i << " bits ";
+            if(i == 8){cout<<" o posiblemente de << 0 "<<endl;}
+            else if(i == 0){cout<<"o posiblemente de << 8 "<<endl;}
+            else if( i == 1 || i == 7){
+                cout<<" o posiblemente de << 7 bits"<<endl;
+            }
+            else if(i == 2 || i == 6){cout<<" o posiblemente de << 6 bits"<<endl;}
+            else if(i == 3 || i == 5){cout<<" o posiblemente de << 5 bits"<<endl;}
+            cout<<endl;
+            return;
+        }
+    }
+    for (int i = 0; i < 9; i++) {
+        int derecha = ((a[5] >> i) | (a[5] << (8 - i))) & 0xFF  ;
+        if (derecha == b[5]) {
+            cout << "¡Se encontraron rotaciones !! :) hacia la derecha de >>" << i << " bits";
+
+            if(i == 8){cout<<" o posiblemente de >> 0 "<<endl;}
+            else if(i == 0){cout<<"o posiblemente de >> 8 "<<endl;}
+
+            else if( i == 1 || i == 7){
+                cout<<" o posiblemente de >> 7 bits"<<endl;
+            }
+            else if(i == 2 || i == 6){cout<<" o posiblemente de >> 6 bits"<<endl;}
+            else if(i == 3 || i == 5){cout<<" o posiblemente de >> 5 bits"<<endl;}
+            cout<<endl;
+            return;
+        }
+    }
+
+    cout << "No hay rotaciones rey :( " << endl;
+}
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
