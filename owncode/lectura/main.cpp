@@ -261,7 +261,7 @@ int main()
                 int* datos = leertxt(nombretxt, width, height);
                 cout<<"Ingresa el .txt en donde estan los datos relacionados con la mascara : "<<endl;
                 cin >> nombretxt1;
-                 int* datos1 = leertxt(nombretxt, width, height);
+                 int* datos1 = leertxt(nombretxt1, width, height);
                 //seed -= 1;
                 seed = seed * 3;
 
@@ -291,7 +291,7 @@ int main()
                 }
 
                 //Para la semilla
-                archivo << seed << endl;
+                archivo << seed / 3 << endl;
                     //Me copia los rgb :>
                 size = width * height * 3 ;
                 for (int i = 0; i < size; i += 3) {
