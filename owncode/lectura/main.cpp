@@ -262,7 +262,7 @@ int main()
                 cout<<"Ingresa el .txt en donde estan los datos relacionados con la mascara : "<<endl;
                 cin >> nombretxt1;
                  int* datos1 = leertxt(nombretxt, width, height);
-                seed -= 1;
+                //seed -= 1;
                 seed = seed * 3;
 
                  // necesito saber el tamaño de la mascara
