@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 16.0.0, 2025-04-24T15:58:22. -->
+<!-- Written by QtCreator 16.0.0, 2025-04-25T02:23:01. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
@@ -250,7 +250,6 @@
     <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">/home/coffee/Documents/Obsidian Vault/C++ UdeA/desafio1/owncode/codedesafioone/codedesafioone.pro</value>
     <value type="bool" key="ProjectExplorer.RunConfiguration.Customized">true</value>
     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
-    <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
     <value type="bool" key="RunConfiguration.UseTerminal">true</value>
     <value type="QString" key="RunConfiguration.WorkingDirectory.default">/home/coffee/Documents/Obsidian Vault/C++ UdeA/desafio1/owncode/codedesafioone/build/Desktop_Qt_6_8_2-Debug</value>

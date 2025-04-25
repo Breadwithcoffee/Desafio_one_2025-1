@@ -2,62 +2,69 @@
 #include <fstream>
 #include <string>
 using namespace std;
-string namearchivotxt();
-int  semilla(string nombre);
-int tamañobmp(string nombre);
+
+int  semilla(char nombre[]);
+int tamañobmp(char nombre[]);
 int* arraytxt(int size,string* txt);
-string* rango8bit(string nombre,int size);
-int* rango(string nombre,int size,int*sinrango);
+string* rango8bit(char nombre[],int size);
+void rango(int size,int*sinrango);
 
 int main()
 {
-    int mascara[2];
-    cout<<"Bienvenido, este programa intentara darte las posibles transformaciones que se le han hecho a un grupo de datos :"<<endl;
-    cout<<"Se solicitaran dos archivos .txt y se buscaran sus posibles transformaciones "<<endl;
-    cout<<"Ingresa el tamaño de la mascara en la tranformacion de esta imagen  "<<endl;
-    for(int i = 0; i < 2; i++){cin>>mascara[i];}
-    cout<<"Ingresa el ultimo txt a comprobar"<<endl;
-    string nombre = namearchivotxt();
-    int index = semilla(nombre);
+    char nombre[20];
+    char nombre1[20];
+    int terminacion = 1;
+    while(terminacion == 1){
+    cout<<"Bienvenido, recuerda ser responsable con la comparacion de los archivos mi rey "<<endl;
+    cout<<"Recuerda que mi codigo tiene maticez y le debes de ayudar un poco , se amable :) "<<endl;
+    cout<<"ingresa el producto del tamaño de la mascara [ejemplo: 15x10 = 150] me das el 150 "<<endl;
+    int mascara = 0;
+    cin >> mascara;
+    cout<<"Debes de ingresar dos archivos .txt para poder compararlos, primero pon el archivo mas a la izquierda, el otro que le antepone lo pones despues"<<endl;
+    cout<<"Ingresa el primer archivo .txt"<<endl;
+    cin >> nombre;
+    cout<<"ingresa el segundo archivo .txt "<< endl;
+    cin >> nombre1;
+    //int index = semilla(nombre);
     int size = tamañobmp(nombre);
-    //ahora si viene lo chido xd hahaha
+    size += 1; // el puesto de la semilla
+    //primer txt
     string* dato_a_dato = rango8bit(nombre,size);
+    //segundo txt
+    string* dato_a_dato1 = rango8bit(nombre1,size);
+    //convercion de string a enteros del primer txt
     int* uno_a_uno = arraytxt(size,dato_a_dato);
-// Hasta aqui netamente se hice la transformacion de un .txt a una cadena de enteros.
-    index *= 3;
-    if(index >= 0 && index < size){cout<<uno_a_uno[index]<<endl;
-    }
-    else{cout<<"Semilla apuntando a otras direccioines xd "<<endl;}
-     // recorro el array a donde esta la semilla
+    //conversion del segundo txt
+     int* uno_a_uno1 = arraytxt(size,dato_a_dato1);
 
-    //desde aqui empiezo a pedir el otro .txt, unicamente hago lo mismo pero con algo mas.
-    cout<<"Ingresa el anterior .txt del anterior "<<endl;
-    string nombre1 = namearchivotxt();
-    int index1 = semilla(nombre1);
-    int size1 = tamañobmp(nombre1);
-    string* dato_a_dato1 = rango8bit(nombre1,size1);
-    int* uno_a_uno1 = arraytxt(size1,dato_a_dato1);
-    index1 *= 3;
-    if(index1 >= 0 && index1 < size1){cout<<uno_a_uno1[index1]<<endl;
-    }
-    else{cout<<"Semilla apuntando a otras direccioines xd "<<endl;}
 
-    delete[] uno_a_uno1;
+    for(int i = 0 ; i < size ; i++){
+         cout<<uno_a_uno[i]<<endl;
+    }
+
+
     delete[] uno_a_uno;
+     delete[] uno_a_uno1;
+    uno_a_uno = nullptr;
+     uno_a_uno1 = nullptr;
+
+    cout<<"Seleccione: \n 1-desea seguir leyendo archivo\n 2-ya terminastes?"<<endl;
+     cin>>terminacion;
+    }
+
+
+    //ahora si viene lo chido xd hahaha
+
+
+// Hasta aqui netamente se hice la transformacion de un .txt a una cadena de enteros.
     return 0;
 }
 
-string namearchivotxt(){
-    string name;
-    cout<<"Ingresa el nombre del archivo .txt : "<<endl;
-    cin >> name;
-    return name;
-}
 
-int semilla(string nombre){
+int semilla(char nombre[]){
     int numero = 0;
     // ifstream nombre = namearchivotxt(); --> me generaba un error con el string
-    ifstream archivo(nombre.c_str());
+    ifstream archivo(nombre);
             string linea;
 
 
@@ -75,12 +82,12 @@ int semilla(string nombre){
     return numero;
 }
 
-int tamañobmp(string nombre){
+int tamañobmp(char nombre[]){
     int count = 0;
-    ifstream archivo(nombre.c_str());
+    ifstream archivo(nombre);
     string linea;
     if (archivo.is_open()) {
-        getline(archivo,linea); // me salto el primer \0
+        getline(archivo,linea);
         while (archivo >> linea) {
             count++;
         }
@@ -92,20 +99,24 @@ int tamañobmp(string nombre){
     return count;
 }
 
-string* rango8bit(string nombre, int size){
-    int i = 0;
-    string* cambio = new string[size];
-    ifstream archivo(nombre.c_str());
+string* rango8bit(char nombre[], int size){
+    ifstream archivo(nombre);
     string linea;
-    if (archivo.is_open()) {
-        while (archivo >> linea && i < size) {
-            cambio[i] = linea;
-            i ++;
+    if (!archivo.is_open()) {
+       cout << "Error al abrir el archivo";
+        return nullptr;
         }
-        archivo.close();
-    } else {
-        cout << "Error al abrir el archivo";
+     int i = 0;
+     size += 1; // la semilla
+     string* cambio = new string[size];
+
+
+    while (archivo >> linea && i < size) {
+    cambio[i] = linea;
+    i ++;
     }
+
+    archivo.close();
     return cambio;
 
 }
@@ -118,6 +129,8 @@ int* arraytxt(int size, string* txt){
         valores[i]= std::stoi(txt[i]);
 
     }
+
+    rango(size,valores);
    /* for(int i = 0 ; i < size;i++){
         cout<<valores[i]<<endl;
     }*/
@@ -125,16 +138,18 @@ int* arraytxt(int size, string* txt){
   return valores;
 }
 // creo que no utilizare esta funcion
-/*int* rango(string nombre,int size,int*sinrango){
+void rango(int size,int*sinrango){
     for(int i = 0; i< size; i++){
-        if(sinrango[i] > 255){
-            sinrango[i] %= 256;
+        if(sinrango[i] >= 255){
+            sinrango[i] = sinrango[i] % 256;
+        } else if(sinrango[i] < 0){
+            sinrango[i] = sinrango[i] + 256;
         }
 
-    }
-    return sinrango;
 
-}*/
+    }
+
+}
 
 
 
