@@ -15,7 +15,7 @@ int  semilla(char nombre[]){
         while (getline(archivo, linea)) {
             numero = std::stoi(linea);
             cout << "La semilla en este .txt es : "<<numero << endl;
-            break; //Se lee unicamente la primera linea que es lo que queria \0
+            break; //solo necesito la primera linea --> \0
         }
         archivo.close();
     } else {
