@@ -42,7 +42,7 @@ int main()
 
         cout<<"Se que este programa  unicamente era para lectura de datos , pero tambien tendre que utilizarla "<<endl;
         cout<<"Para creacion de datos :) "<<endl;
-        cout<<"Ingresa lo que quieres hacer a los datos del .txt llamado  o leer imagenes .BMP RECUERDA QUE TODO SE HARA DE MANERA LINEAL"<<endl;
+        cout<<"Ingresa lo que quieres hacer a los datos :) RECUERDA QUE TODO SE HARA DE MANERA LINEAL"<<endl;
         cout<<"a-leer una imagen \n b- rotar una imagen \n c- aplicar xor \n d-poner mascara \n e-salir "<<endl;
         cin>> desicion;
         if(desicion == 97 ){
@@ -87,7 +87,7 @@ int main()
             }
 
             archivo.close();
-            cout << "Archivo " << nombretxt << " todo melo" << endl;
+            cout << "Archivo " << nombretxt << " todo melo todo bacano" << endl;
 
 
             // necesito evitar fugas -->
@@ -133,7 +133,7 @@ int main()
               else if(rotacion == 2){
                   for(int i = 0; (i < width * height*3)  ; i++){
 
-                      enteros[i] = (enteros[i]>> cantidad) | enteros[i]<< (8-cantidad) & 0xFF;
+                      enteros[i] = (enteros[i]>> cantidad) | (enteros[i]<< (8-cantidad) & 0xFF);
 
                   }
               }
@@ -237,7 +237,7 @@ int main()
                 }
 
                 archivo.close();
-                cout << "Archivo " << nombretxt << " todo melo" << endl;
+                cout << "Archivo " << nombretxt << " todo melo todo bacano, hecho correctamente" << endl;
 
                 delete[] datos1;
                 delete[] datos2;
@@ -551,7 +551,8 @@ void creartxt(char nombretxt[] , unsigned char* pixelData, int seed ,int width,i
         if(pixelData[i] >= 255){
             pixelData[i] = pixelData[i] % 256;
             archivo << pixelData[i] << " ";
-        }
+        } else if(pixelData[i] < 0){  pixelData[i] = (pixelData[i] + 256);
+            archivo << pixelData[i] << " ";}
         /*else if(pixelData[i] < 0){
             pixelData[i] = pixelData[i] + 256;
             archivo << pixelData[i] << " ";
