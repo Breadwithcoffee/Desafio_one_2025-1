@@ -60,9 +60,6 @@ int main()
     while(terminacion == 1){
     cout<<"Bienvenido, recuerda ser responsable con la comparacion de los archivos mi rey "<<endl;
     cout<<"Recuerda que mi codigo tiene maticez y le debes de ayudar un poco , se amable :) "<<endl;
-    /*cout<<"ingresa el producto del tamaño de la mascara [ejemplo: 15x10 = 150] me das el 150 "<<endl;
-    int mascara = 0;
-    cin >> mascara;*/
     cout<<"Debes de ingresar dos archivos .txt para poder compararlos, primero pon el archivo mas a la izquierda, el otro que le antepone lo pones despues"<<endl;
     cout<<"Ingresa el primer archivo .txt"<<endl;
     cin >> nombre;
@@ -261,10 +258,10 @@ void enmascaramiento(int* a, int* b, int* c, int index, int size1, int size) {
 
     // Resultado
     if(desicion == true) {
-        cout << "¡Transformación encontrada! Se creó un enmascaramiento.\n";
-        cout << "La semilla de donde se creó está en: " << (index - 1) / 3 << endl;
+        cout << "¡transformacionn encontrada!!! Se creo un enmascaramiento.\n";
+        cout << "y la semilla esta en : " << (index - 1) / 3 << endl;
     } else {
-        cout << "Tiene que haber un error en el formato o la disposición de los archivos." << endl;
+        cout << "algo rarito paso aqui xd " << endl;
     }
 }
 
